@@ -1,103 +1,142 @@
 /**
  * UI Event Handlers
- * Wires up button clicks, modal interactions, and custom events.
+ * Wires up search, navigation, and tariff lookup interactions.
  */
+
 import state from "../state/app-state";
-import { showScreen, showModal, hideModal } from "./ui-manager";
+import { showScreen } from "./ui-manager";
 import { notify } from "../core/utils";
-import { validateItem } from "../core/item-logic";
+import { debounce } from "../core/utils";
+import { searchTariffs, lookupTariff } from "../services/tariff-service";
+import { validateHsCode } from "../core/tariff-logic";
+import { UI } from "../constants/app-constants";
 import {
-  createItem,
-  deleteItem,
-  subscribeToItems,
-} from "../services/item-service";
+  renderSearchResults,
+  renderTariffResult,
+  clearSearchResults,
+} from "./renderer";
 import type { RenderCallback } from "../types/index";
 
-let _renderApp: RenderCallback | null = null;
+let _selectedCountry = "";
 
-export function initAppHandlers(renderAppFn: RenderCallback): void {
-  _renderApp = renderAppFn;
+export function initAppHandlers(_renderAppFn: RenderCallback): void {
 
-  // "Get Started" button on start screen
-  const getStartedBtn = document.getElementById(
-    "btn-get-started",
-  ) as HTMLButtonElement;
-  getStartedBtn.onclick = () => {
-    showScreen("app-screen");
-    if (state.userId && _renderApp) {
-      subscribeToItems(state.userId, _renderApp);
+  // Search submit — full lookup
+  document.addEventListener("search-submit", ((e: Event) => {
+    const { query, country } = (
+      e as CustomEvent<{ query: string; country: string }>
+    ).detail;
+    _selectedCountry = country;
+    handleSearchSubmit(query, country);
+  }) as EventListener);
+
+  // Search input — live filtering (debounced)
+  const debouncedSearch = debounce((value: string) => {
+    if (!value.trim()) {
+      clearSearchResults();
+      state.searchResults = [];
+      return;
     }
-  };
+    const results = searchTariffs(value);
+    state.searchResults = results;
+    renderSearchResults(results, handleResultSelect);
+  }, UI.SEARCH_DEBOUNCE_MS);
 
-  // "Add Item" button
-  const addItemBtn = document.getElementById(
-    "btn-add-item",
-  ) as HTMLButtonElement;
-  addItemBtn.onclick = () => {
-    (document.getElementById("item-title-input") as HTMLInputElement).value =
-      "";
-    (
-      document.getElementById("item-description-input") as HTMLTextAreaElement
-    ).value = "";
-    showModal("create-item-modal");
-    (document.getElementById("item-title-input") as HTMLInputElement).focus();
-  };
+  document.addEventListener("search-input", ((e: Event) => {
+    const { value } = (e as CustomEvent<{ value: string }>).detail;
+    debouncedSearch(value);
+  }) as EventListener);
 
-  // Save item
-  const saveItemBtn = document.getElementById(
-    "btn-save-item",
-  ) as HTMLButtonElement;
-  saveItemBtn.onclick = async () => {
-    const title = (
-      document.getElementById("item-title-input") as HTMLInputElement
-    ).value;
-    const description = (
-      document.getElementById("item-description-input") as HTMLTextAreaElement
-    ).value;
+  // Nav change
+  document.addEventListener("nav-change", ((e: Event) => {
+    const { screen } = (e as CustomEvent<{ screen: string }>).detail;
+    showScreen(screen);
+  }) as EventListener);
 
-    const validation = validateItem({ title, description });
-    if (!validation.valid) {
-      notify(validation.message, "error");
+  // Back to search button
+  const backBtn = document.getElementById("btn-back-to-search");
+  if (backBtn) {
+    backBtn.onclick = () => {
+      showScreen("search-screen");
+    };
+  }
+}
+
+/**
+ * Handles a search submission — looks up the tariff for HS code + country.
+ */
+function handleSearchSubmit(query: string, country: string): void {
+  // First, check if it looks like an HS code
+  const validation = validateHsCode(query);
+
+  if (validation.valid && country) {
+    // Direct lookup
+    const result = lookupTariff(query, country);
+    if (result) {
+      state.currentTariffResult = result;
+      renderTariffResult(result);
+      showScreen("result-screen");
+      return;
+    }
+    notify("No tariff data found for this HS code.", "warning");
+    return;
+  }
+
+  if (!country) {
+    // Search without country — show results list
+    const results = searchTariffs(query);
+    if (results.length === 0) {
+      notify("No results found. Try a different search term.", "warning");
       return;
     }
 
-    try {
-      await createItem(state.userId!, { title, description });
-      hideModal("create-item-modal");
-      notify("Item created!", "success");
-    } catch (error) {
-      console.error("Error creating item:", error);
-      notify("Failed to create item: " + (error as Error).message, "error");
+    if (results.length === 1) {
+      // Auto-select single result, but still need a country
+      notify("Please select an origin country to see the full tariff rate.", "info");
     }
-  };
 
-  // Cancel create item
-  const cancelItemBtn = document.getElementById(
-    "btn-cancel-item",
-  ) as HTMLButtonElement;
-  cancelItemBtn.onclick = () => {
-    hideModal("create-item-modal");
-  };
+    state.searchResults = results;
+    renderSearchResults(results, handleResultSelect);
+    return;
+  }
 
-  // Delete item via custom event
-  document.addEventListener("delete-item", async (e: Event) => {
-    const { itemId } = (e as CustomEvent<{ itemId: string }>).detail;
-    if (!confirm("Delete this item?")) return;
+  // Have country, query is a description — search and show results
+  const results = searchTariffs(query);
+  if (results.length === 0) {
+    notify("No results found. Try a different search term.", "warning");
+    return;
+  }
 
-    try {
-      await deleteItem(itemId);
-      notify("Item deleted", "success");
-    } catch (error) {
-      console.error("Error deleting item:", error);
-      notify("Failed to delete item: " + (error as Error).message, "error");
+  if (results.length === 1) {
+    // Single match — do full lookup
+    const result = lookupTariff(results[0].hsCode, country);
+    if (result) {
+      state.currentTariffResult = result;
+      renderTariffResult(result);
+      showScreen("result-screen");
+      return;
     }
-  });
+  }
 
-  // Back to start
-  const backBtn = document.getElementById("btn-back-to-start");
-  if (backBtn) {
-    backBtn.onclick = () => {
-      showScreen("start-screen");
-    };
+  state.searchResults = results;
+  renderSearchResults(results, handleResultSelect);
+}
+
+/**
+ * Handles clicking on a search result entry.
+ */
+function handleResultSelect(hsCode: string): void {
+  if (!_selectedCountry) {
+    notify("Please select an origin country first.", "info");
+    return;
+  }
+
+  const result = lookupTariff(hsCode, _selectedCountry);
+  if (result) {
+    state.currentTariffResult = result;
+    renderTariffResult(result);
+    showScreen("result-screen");
+  } else {
+    notify("Could not look up tariff data for this combination.", "warning");
   }
 }

@@ -5,10 +5,12 @@
 import type { AppState } from "../types/index";
 
 const state: AppState = {
-  userId: null,
-  items: [],
-  unsubscribe: null,
-  currentScreen: "start-screen",
+  searchQuery: "",
+  selectedCountry: "",
+  searchResults: [],
+  currentTariffResult: null,
+  currentScreen: "search-screen",
+  isLoading: false,
 };
 
 export default state;

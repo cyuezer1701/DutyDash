@@ -62,3 +62,28 @@ export function notify(message: string, type: NotificationType = "info"): void {
     setTimeout(() => notif.remove(), 300);
   }, UI.NOTIFICATION_DURATION_MS || 3000);
 }
+
+/**
+ * Formats a decimal as a percentage string for display.
+ * @param rate - Decimal rate (e.g., 0.25)
+ * @param decimals - Number of decimal places (default: 1)
+ */
+export function formatPercent(rate: number, decimals: number = 1): string {
+  return `${(rate * 100).toFixed(decimals)}%`;
+}
+
+/**
+ * Creates a debounced version of a function.
+ * The debounced function delays invoking the provided function until
+ * after `ms` milliseconds have elapsed since the last invocation.
+ */
+export function debounce<T extends (...args: Parameters<T>) => void>(
+  fn: T,
+  ms: number,
+): (...args: Parameters<T>) => void {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  return (...args: Parameters<T>) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}

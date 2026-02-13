@@ -9,6 +9,13 @@ import { AppModal } from "./app-modal";
 import { AppNotification } from "./app-notification";
 import { AppInput } from "./app-input";
 import { AppEmptyState } from "./app-empty-state";
+import { RateBadge } from "./rate-badge";
+import { CountrySelect } from "./country-select";
+import { TariffSearchBar } from "./tariff-search-bar";
+import { DutyBreakdown } from "./duty-breakdown";
+import { TariffResultCard } from "./tariff-result-card";
+import { DisclaimerBanner } from "./disclaimer-banner";
+import { NavBar } from "./nav-bar";
 
 export {
   AppButton,
@@ -17,6 +24,13 @@ export {
   AppNotification,
   AppInput,
   AppEmptyState,
+  RateBadge,
+  CountrySelect,
+  TariffSearchBar,
+  DutyBreakdown,
+  TariffResultCard,
+  DisclaimerBanner,
+  NavBar,
 };
 
 /**
@@ -31,6 +45,13 @@ export function registerComponents(): void {
     ["app-notification", AppNotification],
     ["app-input", AppInput],
     ["app-empty-state", AppEmptyState],
+    ["rate-badge", RateBadge],
+    ["country-select", CountrySelect],
+    ["tariff-search-bar", TariffSearchBar],
+    ["duty-breakdown", DutyBreakdown],
+    ["tariff-result-card", TariffResultCard],
+    ["disclaimer-banner", DisclaimerBanner],
+    ["nav-bar", NavBar],
   ];
 
   for (const [name, constructor] of components) {

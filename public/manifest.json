@@ -1,12 +1,12 @@
 {
-  "name": "My App",
-  "short_name": "MyApp",
-  "description": "A web application built with Vite + Firebase",
+  "name": "DutyDash — US Import Tariff Lookup",
+  "short_name": "DutyDash",
+  "description": "Look up US import tariff rates and calculate landed costs",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#1a237e",
-  "theme_color": "#1a237e",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "lang": "en",
   "icons": [
     {

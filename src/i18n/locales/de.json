@@ -1,59 +1,61 @@
 {
   "app": {
-    "name": "Meine App",
-    "tagline": "Erstellt mit Vite + Firebase",
-    "description": "Ein produktionsreifes Template zum Erstellen von Webanwendungen mit Echtzeit-Firebase-Backend, PWA-Support und einer vollstaendigen CI/CD-Pipeline."
+    "name": "DutyDash",
+    "tagline": "US-Import Zolltarif-Suche",
+    "description": "Aktuelle Zollsaetze fuer US-Importe nachschlagen. Geben Sie einen HS-Code oder eine Produktbeschreibung ein, waehlen Sie das Herkunftsland und erhalten Sie sofort den effektiven Zollsatz."
+  },
+  "nav": {
+    "search": "Suche",
+    "dashboard": "Dashboard"
+  },
+  "search": {
+    "placeholder": "HS-Code oder Produktbeschreibung eingeben...",
+    "countryPlaceholder": "Herkunftsland waehlen...",
+    "button": "Nachschlagen",
+    "noResults": "Keine Zolltarif-Eintraege fuer Ihre Suche gefunden.",
+    "selectCountry": "Bitte waehlen Sie ein Herkunftsland, um den vollstaendigen Zollsatz zu sehen.",
+    "selectCountryFirst": "Bitte waehlen Sie zuerst ein Herkunftsland."
+  },
+  "tariff": {
+    "hsCode": "HS-Code",
+    "description": "Produktbeschreibung",
+    "mfnRate": "MFN-Satz",
+    "additionalDuties": "Zusaetzliche Zoelle",
+    "effectiveRate": "Effektiver Gesamtzollsatz",
+    "lastUpdated": "Daten zuletzt aktualisiert",
+    "noDuties": "Keine zusaetzlichen Zoelle fuer dieses Land",
+    "section301": "Section 301",
+    "ieepa": "IEEPA Notfall",
+    "reciprocal": "Reziprok",
+    "antidumping": "Anti-Dumping",
+    "countervailing": "Ausgleichszoll"
+  },
+  "disclaimer": {
+    "text": "DutyDash stellt Zolltarifinformationen nur zu Informationszwecken bereit. Dies ist keine Rechts-, Handels- oder Zollberatung. Tatsaechliche Zollsaetze koennen abweichen. Konsultieren Sie immer einen lizenzierten Zollmakler fuer offizielle Feststellungen.",
+    "dismiss": "Verstanden"
   },
   "actions": {
-    "getStarted": "Los geht's",
-    "addItem": "+ Hinzufuegen",
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "delete": "Loeschen",
     "back": "Zurueck",
-    "tryAgain": "Erneut versuchen",
-    "install": "Installieren"
+    "backToSearch": "Zurueck zur Suche",
+    "viewDetails": "Details anzeigen"
   },
-  "items": {
-    "title": "Meine Eintraege",
-    "subtitle": "Deine Eintraege",
-    "emptyState": "Noch keine Eintraege. Erstelle deinen ersten Eintrag!",
-    "newItem": "Neuer Eintrag",
-    "titleLabel": "Titel",
-    "titlePlaceholder": "Titel eingeben...",
-    "descriptionLabel": "Beschreibung",
-    "descriptionPlaceholder": "Beschreibung eingeben...",
-    "created": "Eintrag erstellt!",
-    "deleted": "Eintrag geloescht",
-    "createFailed": "Eintrag konnte nicht erstellt werden",
-    "deleteFailed": "Eintrag konnte nicht geloescht werden",
-    "deleteConfirm": "Diesen Eintrag loeschen?"
+  "validation": {
+    "hsCodeRequired": "HS-Code ist erforderlich",
+    "hsCodeInvalid": "Ungueltiges HS-Code-Format. Verwenden Sie Ziffern und Punkte (z.B. 8471.30)",
+    "countryRequired": "Bitte waehlen Sie ein Herkunftsland"
   },
   "connection": {
     "lost": "Verbindung verloren...",
     "restored": "Verbunden!"
   },
   "pwa": {
-    "installTitle": "App installieren",
-    "installDescription": "Zum Startbildschirm hinzufuegen fuer die beste Erfahrung"
-  },
-  "offline": {
-    "title": "Du bist offline",
-    "description": "Diese App benoetigt eine Internetverbindung."
-  },
-  "validation": {
-    "invalidObject": "Ungueltiges Objekt",
-    "titleRequired": "Titel ist erforderlich",
-    "titleTooLong": "Titel darf maximal {max} Zeichen haben",
-    "descriptionTooLong": "Beschreibung darf maximal {max} Zeichen haben"
-  },
-  "firebase": {
-    "connecting": "Verbinde mit Firebase...",
-    "connected": "Firebase verbunden! Benutzer-ID:",
-    "connectionError": "Firebase Verbindungsfehler:",
-    "configMissing": "Firebase-Konfiguration fehlt! Pruefe deine .env Datei."
+    "installTitle": "DutyDash installieren",
+    "installDescription": "Zum Startbildschirm hinzufuegen fuer schnelle Zollabfragen"
   },
   "common": {
-    "loading": "Laden..."
+    "loading": "Laden...",
+    "error": "Etwas ist schiefgelaufen",
+    "noData": "Keine Zolldaten fuer diesen HS-Code gefunden.",
+    "noResults": "Keine Ergebnisse gefunden. Versuchen Sie einen anderen Suchbegriff."
   }
 }

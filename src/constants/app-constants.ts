@@ -1,29 +1,29 @@
 /* ==================== APP CONSTANTS ==================== */
 
-export const APP_NAME: string = "My App";
-export const APP_VERSION: string = "1.0.0";
+export const APP_NAME = "DutyDash" as const;
+export const APP_VERSION = "0.1.0" as const;
 
 /**
- * Firestore collection names
+ * HS code validation pattern: 4-digit chapter, optional 2-digit subheading, optional 2-4 digit suffix
+ * Valid examples: "8471", "8471.30", "8471.30.01", "6110.20.2080"
  */
-export const COLLECTIONS = {
-  ITEMS: "items",
+export const HS_CODE_PATTERN = /^\d{4}(\.\d{2}(\.\d{2,4})?)?$/;
+
+/**
+ * Rate severity thresholds (as decimals).
+ * Used for color coding tariff rates.
+ */
+export const RATE_THRESHOLDS = {
+  LOW_MAX: 0.05,
+  MODERATE_MAX: 0.15,
+  HIGH_MAX: 0.30,
 } as const;
 
 /**
  * UI constants
  */
 export const UI = {
-  MAX_TITLE_LENGTH: 100,
-  MAX_DESCRIPTION_LENGTH: 2000,
-  ITEMS_PER_PAGE: 20,
+  SEARCH_DEBOUNCE_MS: 300,
+  SEARCH_RESULTS_LIMIT: 20,
   NOTIFICATION_DURATION_MS: 3000,
-} as const;
-
-/**
- * Item status
- */
-export const ITEM_STATUS = {
-  ACTIVE: "active",
-  ARCHIVED: "archived",
 } as const;
