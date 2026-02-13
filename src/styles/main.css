@@ -3,10 +3,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1a237e;
-  --color-primary-light: #1565c0;
+  --color-primary: #0f172a;
+  --color-primary-light: #1e40af;
   --color-accent: #10b981;
   --color-danger: #ef4444;
+  --color-warning: #f59e0b;
   --font-family-sans:
     "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -27,22 +28,11 @@ body {
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  background: linear-gradient(180deg, #1a237e 0%, #0d47a1 40%, #1565c0 100%);
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 40%, #334155 100%);
   color: #ffffff;
   overflow-x: hidden;
   min-height: 100dvh;
   width: 100%;
-}
-
-#start-screen {
-  overflow-y: auto;
-  max-height: 100dvh;
-}
-
-@media (max-height: 667px) {
-  #start-screen .glass-panel {
-    padding: 16px;
-  }
 }
 
 /* Subtle blue light effects */
@@ -52,43 +42,20 @@ body {
   background:
     radial-gradient(
       circle at 20% 30%,
-      rgba(100, 181, 246, 0.15) 0%,
+      rgba(59, 130, 246, 0.1) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 80% 70%,
-      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.04) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(66, 165, 245, 0.1) 0%,
+      rgba(59, 130, 246, 0.06) 0%,
       transparent 50%
     );
   z-index: 0;
-}
-
-/* Logo */
-.logo {
-  font-size: 48px;
-  font-weight: 900;
-  background: linear-gradient(135deg, #ffffff 0%, #90caf9 50%, #e3f2fd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: center;
-  margin-bottom: 32px;
-  letter-spacing: -2px;
-}
-
-.tagline {
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  margin-bottom: 48px;
 }
 
 .hidden {
@@ -101,10 +68,10 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }

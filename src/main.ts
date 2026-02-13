@@ -1,8 +1,7 @@
 /**
- * App Template - Main Entry Point
+ * DutyDash — Main Entry Point
  *
- * This module initializes Firebase auth, sets up the render bridge,
- * and wires up all application modules.
+ * Initializes components, i18n, and wires up the application.
  */
 
 // Styles
@@ -10,18 +9,13 @@ import "./styles/main.css";
 import "./styles/components.css";
 import "./styles/ui.css";
 import "./styles/animations.css";
+import "./styles/tariff.css";
 
-// Firebase
-import { auth } from "./config/firebase";
-import { signInAnonymously } from "firebase/auth";
+// Services
 import { initConnectionMonitor } from "./services/connection-monitor";
-
-// State
-import state from "./state/app-state";
 
 // UI
 import { showScreen } from "./ui/ui-manager";
-import { notify } from "./core/utils";
 
 // i18n
 import { initI18n } from "./i18n/i18n";
@@ -32,31 +26,22 @@ import { registerComponents } from "./components";
 
 // App modules
 import { initAppHandlers } from "./ui/event-handlers";
-import { renderItemList } from "./ui/renderer";
-
-/* ==================== FIREBASE AUTH ==================== */
-
-console.log("Connecting to Firebase...");
-try {
-  await signInAnonymously(auth);
-  state.userId = auth.currentUser!.uid;
-  console.log("Firebase connected! User ID:", state.userId);
-} catch (error) {
-  console.error("Firebase connection error:", error);
-  notify("Firebase connection error: " + (error as Error).message, "error");
-}
-
-initConnectionMonitor();
 
 /* ==================== I18N & COMPONENTS ==================== */
 
 registerComponents();
 await initI18n(getSavedLocale());
 
+/* ==================== SERVICES ==================== */
+
+initConnectionMonitor();
+
 /* ==================== RENDER BRIDGE ==================== */
 
 function renderApp(): void {
-  renderItemList(state.items);
+  // Currently a no-op — rendering is handled by event handlers
+  // and web components reactively. This callback exists for the
+  // initAppHandlers contract and future use.
 }
 
 /* ==================== INITIALIZE ALL MODULES ==================== */
@@ -71,6 +56,6 @@ if (skeleton) {
   setTimeout(() => skeleton.remove(), 300);
 }
 
-showScreen("start-screen");
+showScreen("search-screen");
 
-console.log("App initialized");
+console.log("DutyDash initialized");

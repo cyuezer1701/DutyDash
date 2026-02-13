@@ -1,86 +1,74 @@
 /**
  * Renderer
- * Pure DOM rendering functions for the items list.
+ * DOM rendering functions for tariff search results and lookup results.
  */
 
-import { formatDate } from "../core/utils";
-import { truncateText } from "../core/item-logic";
-import type { Item } from "../types/index";
+import { formatRate } from "../core/tariff-logic";
+import type { TariffEntry, TariffResult } from "../types/index";
 
 /**
- * Renders a single item card element
- * @param item - Item data object
- * @param onDelete - Delete handler
- * @returns Item card DOM element
+ * Renders search results as clickable entries in the #search-results container.
+ * Each entry shows HS code, description, and base MFN rate.
  */
-export function renderItemCard(
-  item: Item,
-  onDelete: (id: string) => void,
-): HTMLElement {
-  const card = document.createElement("div");
-  card.className = "item-card glass-panel card-enter";
-  card.dataset.itemId = item.id;
-
-  const title = document.createElement("h3");
-  title.className = "item-title";
-  title.textContent = item.title;
-
-  const description = document.createElement("p");
-  description.className = "item-description";
-  description.textContent = truncateText(item.description);
-
-  const footer = document.createElement("div");
-  footer.className = "item-footer";
-
-  const meta = document.createElement("span");
-  meta.className = "item-meta";
-  const createdAt = item.createdAt as number | { toDate: () => Date };
-  const timestamp =
-    typeof createdAt === "object" && createdAt !== null && "toDate" in createdAt
-      ? createdAt.toDate()
-      : new Date(createdAt as number);
-  meta.textContent = formatDate(timestamp.getTime());
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.className = "btn-delete";
-  deleteBtn.textContent = "Delete";
-  deleteBtn.onclick = (e: MouseEvent) => {
-    e.stopPropagation();
-    onDelete(item.id);
-  };
-
-  footer.append(meta, deleteBtn);
-  card.append(title, description, footer);
-  return card;
-}
-
-/**
- * Renders the full item list into the container
- * @param items - Array of item objects
- */
-export function renderItemList(items: Item[]): void {
-  const container = document.getElementById("item-list");
+export function renderSearchResults(
+  entries: TariffEntry[],
+  onSelect: (hsCode: string) => void,
+): void {
+  const container = document.getElementById("search-results");
   if (!container) return;
 
   container.innerHTML = "";
 
-  if (!items || items.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "empty-state";
-    empty.innerHTML =
-      '<div class="empty-icon">📋</div><p>No items yet. Create your first item!</p>';
-    container.appendChild(empty);
+  if (!entries || entries.length === 0) {
     return;
   }
 
-  items.forEach((item) => {
-    const card = renderItemCard(item, handleDeleteItem);
-    container.appendChild(card);
-  });
+  for (const entry of entries) {
+    const div = document.createElement("div");
+    div.className = "result-entry";
+    div.tabIndex = 0;
+    div.setAttribute("role", "button");
+    div.setAttribute(
+      "aria-label",
+      `HS ${entry.hsCode}: ${entry.description}, MFN rate ${formatRate(entry.mfnRate)}`,
+    );
+    div.dataset.hsCode = entry.hsCode;
+
+    div.innerHTML = `
+      <span class="result-hs">${entry.hsCode}</span>
+      <span class="result-desc">${entry.description}</span>
+      <span class="result-rate">MFN ${formatRate(entry.mfnRate)}</span>
+    `;
+
+    div.addEventListener("click", () => onSelect(entry.hsCode));
+    div.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onSelect(entry.hsCode);
+      }
+    });
+
+    container.appendChild(div);
+  }
 }
 
-function handleDeleteItem(itemId: string): void {
-  document.dispatchEvent(
-    new CustomEvent("delete-item", { detail: { itemId } }),
-  );
+/**
+ * Renders the full tariff result on the result screen.
+ * Sets data on the tariff-result-card web component.
+ */
+export function renderTariffResult(result: TariffResult): void {
+  const card = document.getElementById("tariff-result") as HTMLElement & {
+    setResult?: (r: TariffResult) => void;
+  };
+  if (card?.setResult) {
+    card.setResult(result);
+  }
+}
+
+/**
+ * Clears the search results container.
+ */
+export function clearSearchResults(): void {
+  const container = document.getElementById("search-results");
+  if (container) container.innerHTML = "";
 }

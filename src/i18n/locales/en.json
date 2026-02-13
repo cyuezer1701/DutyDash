@@ -1,59 +1,61 @@
 {
   "app": {
-    "name": "My App",
-    "tagline": "Built with Vite + Firebase",
-    "description": "A production-ready template for building web applications with real-time Firebase backend, PWA support, and a complete CI/CD pipeline."
+    "name": "DutyDash",
+    "tagline": "US Import Tariff Lookup",
+    "description": "Look up current tariff rates for US imports. Enter an HS code or search by product description, select the origin country, and get the effective duty rate instantly."
+  },
+  "nav": {
+    "search": "Search",
+    "dashboard": "Dashboard"
+  },
+  "search": {
+    "placeholder": "Enter HS code or product description...",
+    "countryPlaceholder": "Select origin country...",
+    "button": "Look Up",
+    "noResults": "No tariff entries found for your search.",
+    "selectCountry": "Please select an origin country to see the full tariff rate.",
+    "selectCountryFirst": "Please select an origin country first."
+  },
+  "tariff": {
+    "hsCode": "HS Code",
+    "description": "Product Description",
+    "mfnRate": "MFN Rate",
+    "additionalDuties": "Additional Duties",
+    "effectiveRate": "Effective Total Tariff Rate",
+    "lastUpdated": "Data last updated",
+    "noDuties": "No additional duties for this country",
+    "section301": "Section 301",
+    "ieepa": "IEEPA Emergency",
+    "reciprocal": "Reciprocal",
+    "antidumping": "Anti-Dumping",
+    "countervailing": "Countervailing"
+  },
+  "disclaimer": {
+    "text": "DutyDash provides tariff rate information for informational purposes only. This is not legal, trade, or customs advice. Actual duty rates may vary. Always consult with a licensed customs broker for official determinations.",
+    "dismiss": "Got it"
   },
   "actions": {
-    "getStarted": "Get Started",
-    "addItem": "+ Add Item",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
     "back": "Back",
-    "tryAgain": "Try Again",
-    "install": "Install"
+    "backToSearch": "Back to Search",
+    "viewDetails": "View Details"
   },
-  "items": {
-    "title": "My Items",
-    "subtitle": "Your items",
-    "emptyState": "No items yet. Create your first item!",
-    "newItem": "New Item",
-    "titleLabel": "Title",
-    "titlePlaceholder": "Item title...",
-    "descriptionLabel": "Description",
-    "descriptionPlaceholder": "Write a description...",
-    "created": "Item created!",
-    "deleted": "Item deleted",
-    "createFailed": "Failed to create item",
-    "deleteFailed": "Failed to delete item",
-    "deleteConfirm": "Delete this item?"
+  "validation": {
+    "hsCodeRequired": "HS code is required",
+    "hsCodeInvalid": "Invalid HS code format. Use digits and dots (e.g., 8471.30)",
+    "countryRequired": "Please select an origin country"
   },
   "connection": {
     "lost": "Connection lost...",
     "restored": "Connected!"
   },
   "pwa": {
-    "installTitle": "Install App",
-    "installDescription": "Add to home screen for the best experience"
-  },
-  "offline": {
-    "title": "You are offline",
-    "description": "This app requires an internet connection to work."
-  },
-  "validation": {
-    "invalidObject": "Invalid item object",
-    "titleRequired": "Title is required",
-    "titleTooLong": "Title must be under {max} characters",
-    "descriptionTooLong": "Description must be under {max} characters"
-  },
-  "firebase": {
-    "connecting": "Connecting to Firebase...",
-    "connected": "Firebase connected! User ID:",
-    "connectionError": "Firebase connection error:",
-    "configMissing": "Firebase configuration missing! Check your .env file."
+    "installTitle": "Install DutyDash",
+    "installDescription": "Add to home screen for quick tariff lookups"
   },
   "common": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "noData": "No tariff data found for this HS code.",
+    "noResults": "No results found. Try a different search term."
   }
 }

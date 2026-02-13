@@ -8,12 +8,15 @@
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#1a237e" />
-    <meta name="description" content="A web application built with Vite + Firebase" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="DutyDash — Look up US import tariff rates and calculate landed costs"
+    />
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
-    <title>My App</title>
+    <title>DutyDash — US Import Tariff Lookup</title>
   </head>
   <body>
     <!-- Skeleton Loading Screen (removed by JS on init) -->
@@ -23,7 +26,7 @@
         position: fixed;
         inset: 0;
         z-index: 99999;
-        background: linear-gradient(180deg, #1a237e 0%, #0d47a1 40%, #1565c0 100%);
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 40%, #334155 100%);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -38,7 +41,7 @@
           color: rgba(255, 255, 255, 0.15);
         "
       >
-        Loading...
+        DutyDash
       </div>
       <div style="display: flex; gap: 12px">
         <div
@@ -90,150 +93,38 @@
     <div id="connection-banner" class="connection-banner hidden"></div>
     <div class="bg-pattern"></div>
 
-    <!-- Start Screen -->
-    <div
-      id="start-screen"
-      class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 sm:p-6"
-    >
-      <div class="mb-6 sm:mb-8 text-center w-full">
-        <div
-          style="
-            font-size: clamp(48px, 12vw, 96px);
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            background: linear-gradient(
-              135deg,
-              #ffffff 0%,
-              #90caf9 40%,
-              #e3f2fd 70%,
-              #ffffff 100%
-            );
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 8s ease infinite;
-            filter: drop-shadow(0 0 30px rgba(33, 150, 243, 0.4));
-            line-height: 1;
-            margin-bottom: 12px;
-            text-align: center;
-            width: 100%;
-          "
-        >
-          MY APP
+    <!-- Navigation -->
+    <nav-bar id="main-nav" active="search"></nav-bar>
+
+    <!-- Disclaimer -->
+    <disclaimer-banner></disclaimer-banner>
+
+    <!-- Search Screen (default) -->
+    <div id="search-screen" class="screen-container">
+      <div class="screen-content">
+        <div class="hero-section">
+          <h1 class="hero-title">DutyDash</h1>
+          <p class="hero-tagline">US Import Tariff Lookup</p>
+          <p class="hero-description">
+            Look up current tariff rates for US imports. Enter an HS code or search by product
+            description, select the origin country, and get the effective duty rate instantly.
+          </p>
         </div>
-        <div
-          style="
-            font-size: clamp(12px, 2.5vw, 18px);
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.7);
-          "
-        >
-          Built with Vite + Firebase
-        </div>
+        <tariff-search-bar
+          id="main-search"
+          placeholder="Enter HS code or product description..."
+        ></tariff-search-bar>
+        <div id="search-results" class="results-grid"></div>
       </div>
+    </div>
 
-      <div class="glass-panel w-full max-w-md space-y-4">
-        <p class="text-center text-gray-600 text-sm">
-          A production-ready template for building web applications with real-time Firebase backend,
-          PWA support, and a complete CI/CD pipeline.
-        </p>
-
-        <button
-          id="btn-get-started"
-          class="btn w-full"
-          style="
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            font-size: 16px;
-            padding: 18px;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-          "
-        >
-          Get Started
+    <!-- Result Screen -->
+    <div id="result-screen" class="screen-container hidden">
+      <div class="screen-content">
+        <button id="btn-back-to-search" class="btn-back">
+          &#8592; Back to Search
         </button>
-
-        <div
-          id="status-message"
-          class="text-center text-xs sm:text-sm text-gray-500 min-h-[20px] font-medium"
-        ></div>
-      </div>
-    </div>
-
-    <!-- App Screen -->
-    <div
-      id="app-screen"
-      class="hidden relative z-10 flex flex-col min-h-screen p-4 sm:p-6"
-      style="max-width: min(100%, 800px); margin: 0 auto"
-    >
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-6">
-        <div>
-          <h1 class="text-2xl font-bold">My Items</h1>
-          <p class="text-sm text-white/60">Your items</p>
-        </div>
-        <div class="flex gap-2">
-          <button
-            id="btn-add-item"
-            class="btn btn-success"
-            style="padding: 10px 20px; font-size: 14px"
-          >
-            + Add Item
-          </button>
-          <button
-            id="btn-back-to-start"
-            class="btn"
-            style="
-              padding: 10px 16px;
-              font-size: 14px;
-              background: rgba(255, 255, 255, 0.2);
-              color: #fff;
-              box-shadow: none;
-            "
-          >
-            Back
-          </button>
-        </div>
-      </div>
-
-      <!-- Item List -->
-      <div id="item-list" class="flex-1"></div>
-    </div>
-
-    <!-- Create Item Modal -->
-    <div id="create-item-modal" class="modal hidden">
-      <div class="modal-content">
-        <h2 class="text-2xl font-bold mb-6 text-center" style="color: #1565c0">New Item</h2>
-
-        <div class="space-y-4 mb-6">
-          <div>
-            <label class="form-label" for="item-title-input">Title</label>
-            <input
-              type="text"
-              id="item-title-input"
-              class="form-input"
-              placeholder="Item title..."
-              maxlength="100"
-            />
-          </div>
-          <div>
-            <label class="form-label" for="item-description-input">Description</label>
-            <textarea
-              id="item-description-input"
-              class="form-textarea"
-              placeholder="Write a description..."
-              maxlength="2000"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <button id="btn-cancel-item" class="btn" style="padding: 12px">Cancel</button>
-          <button id="btn-save-item" class="btn btn-success" style="padding: 12px">Save</button>
-        </div>
+        <tariff-result-card id="tariff-result"></tariff-result-card>
       </div>
     </div>
 
@@ -247,7 +138,7 @@
         left: 0;
         right: 0;
         z-index: 10002;
-        background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
         padding: 16px 20px;
         display: flex;
         align-items: center;
@@ -256,11 +147,11 @@
         animation: slideUpBanner 0.4s ease-out;
       "
     >
-      <div style="font-size: 32px; flex-shrink: 0">📲</div>
+      <div style="font-size: 32px; flex-shrink: 0">&#128242;</div>
       <div style="flex: 1; min-width: 0">
-        <div style="font-weight: 800; font-size: 14px; color: #fff">Install App</div>
+        <div style="font-weight: 800; font-size: 14px; color: #fff">Install DutyDash</div>
         <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7)">
-          Add to home screen for the best experience
+          Add to home screen for quick tariff lookups
         </div>
       </div>
       <button
@@ -290,7 +181,7 @@
           padding: 4px;
         "
       >
-        ✕
+        &#10005;
       </button>
     </div>
 
