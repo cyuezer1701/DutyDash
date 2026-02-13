@@ -1,6 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { initializeApp, type FirebaseApp } from "firebase/app";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getAuth, type Auth } from "firebase/auth";
 
 // SECURITY: Firebase configuration using environment variables
 // Never commit actual credentials to git!
@@ -14,15 +14,40 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+const isConfigured =
+  Boolean(firebaseConfig.apiKey) && Boolean(firebaseConfig.projectId);
 
-// Validate configuration on import
-if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
-  console.error("Firebase configuration missing! Check your .env file.");
-  throw new Error("Missing Firebase environment variables");
+// Lazy-initialized singletons — no crash at import time when env vars are missing
+let _app: FirebaseApp | null = null;
+let _db: Firestore | null = null;
+let _auth: Auth | null = null;
+
+function getApp(): FirebaseApp {
+  if (!isConfigured) {
+    throw new Error(
+      "Firebase not configured. Set VITE_FIREBASE_* environment variables.",
+    );
+  }
+  if (!_app) {
+    _app = initializeApp(firebaseConfig);
+  }
+  return _app;
 }
 
-console.log("Firebase configuration loaded successfully");
+export function getFirebaseDb(): Firestore {
+  if (!_db) {
+    _db = getFirestore(getApp());
+  }
+  return _db;
+}
+
+export function getFirebaseAuth(): Auth {
+  if (!_auth) {
+    _auth = getAuth(getApp());
+  }
+  return _auth;
+}
+
+export function isFirebaseConfigured(): boolean {
+  return isConfigured;
+}

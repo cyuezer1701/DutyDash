@@ -18,7 +18,11 @@ vi.mock('firebase/firestore', () => ({
 }));
 
 // Mock firebase config
-vi.mock('../../src/config/firebase', () => ({ db: {} }));
+vi.mock('../../src/config/firebase', () => ({
+  getFirebaseDb: vi.fn(() => ({})),
+  getFirebaseAuth: vi.fn(() => ({})),
+  isFirebaseConfigured: vi.fn(() => false),
+}));
 
 // Mock utils (keep pure functions, mock DOM-dependent ones)
 vi.mock('../../src/core/utils', async (importOriginal) => {
