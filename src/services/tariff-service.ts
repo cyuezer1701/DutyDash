@@ -5,7 +5,11 @@
  */
 
 import { TARIFF_ENTRIES } from "../data/tariff-data";
-import { COUNTRIES, COUNTRY_DUTIES, DATA_LAST_UPDATED } from "../data/countries";
+import {
+  COUNTRIES,
+  COUNTRY_DUTIES,
+  DATA_LAST_UPDATED,
+} from "../data/countries";
 import {
   searchTariffEntries,
   findTariffEntry,

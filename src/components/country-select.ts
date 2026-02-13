@@ -91,7 +91,9 @@ export class CountrySelect extends BaseComponent {
   }
 
   get value(): string {
-    const select = this.shadow.querySelector("select") as HTMLSelectElement | null;
+    const select = this.shadow.querySelector(
+      "select",
+    ) as HTMLSelectElement | null;
     return select?.value || "";
   }
 

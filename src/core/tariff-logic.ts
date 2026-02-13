@@ -26,8 +26,7 @@ export function validateHsCode(code: string): ValidationResult {
   if (!HS_CODE_PATTERN.test(trimmed)) {
     return {
       valid: false,
-      message:
-        "Invalid HS code format. Use digits and dots (e.g., 8471.30)",
+      message: "Invalid HS code format. Use digits and dots (e.g., 8471.30)",
     };
   }
   return { valid: true, message: "" };

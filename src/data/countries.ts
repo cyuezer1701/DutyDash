@@ -90,8 +90,9 @@ export const COUNTRY_DUTIES: CountryDuty[] = [
     duties: [
       {
         type: "ieepa",
-        rate: 0.20,
-        description: "IEEPA Emergency Tariff — Fentanyl-related executive action",
+        rate: 0.2,
+        description:
+          "IEEPA Emergency Tariff — Fentanyl-related executive action",
         authority: "Executive Order",
         effectiveDate: "2025-04-02",
       },
@@ -104,7 +105,7 @@ export const COUNTRY_DUTIES: CountryDuty[] = [
     duties: [
       {
         type: "reciprocal",
-        rate: 0.20,
+        rate: 0.2,
         description: "Reciprocal tariff — EU automobiles & beverages",
         authority: "Executive Order",
         effectiveDate: "2025-04-09",
@@ -117,7 +118,7 @@ export const COUNTRY_DUTIES: CountryDuty[] = [
     duties: [
       {
         type: "reciprocal",
-        rate: 0.20,
+        rate: 0.2,
         description: "Reciprocal tariff — EU beverages (wine)",
         authority: "Executive Order",
         effectiveDate: "2025-04-09",
@@ -130,7 +131,7 @@ export const COUNTRY_DUTIES: CountryDuty[] = [
     duties: [
       {
         type: "reciprocal",
-        rate: 0.20,
+        rate: 0.2,
         description: "Reciprocal tariff — EU automobiles & beverages",
         authority: "Executive Order",
         effectiveDate: "2025-04-09",

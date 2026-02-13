@@ -201,21 +201,23 @@ export const TARIFF_ENTRIES: TariffEntry[] = [
     description: "Footwear with outer soles and uppers of rubber or plastics",
     chapter: 64,
     unit: "pr",
-    mfnRate: 0.20,
+    mfnRate: 0.2,
   },
   {
     hsCode: "6403.99",
-    description: "Footwear with outer soles of rubber/plastics and uppers of leather",
+    description:
+      "Footwear with outer soles of rubber/plastics and uppers of leather",
     chapter: 64,
     unit: "pr",
-    mfnRate: 0.10,
+    mfnRate: 0.1,
   },
   {
     hsCode: "6404.11",
-    description: "Sports footwear with outer soles of rubber/plastics, textile uppers",
+    description:
+      "Sports footwear with outer soles of rubber/plastics, textile uppers",
     chapter: 64,
     unit: "pr",
-    mfnRate: 0.20,
+    mfnRate: 0.2,
   },
   // ── Chapter 71: Jewelry ──
   {
@@ -358,7 +360,8 @@ export const TARIFF_ENTRIES: TariffEntry[] = [
   // ── Chapter 87: Vehicles ──
   {
     hsCode: "8703.23",
-    description: "Motor cars for transport of persons, spark-ignition, 1500–3000 cc",
+    description:
+      "Motor cars for transport of persons, spark-ignition, 1500–3000 cc",
     chapter: 87,
     unit: "pcs",
     mfnRate: 0.025,

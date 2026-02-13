@@ -20,7 +20,6 @@ import type { RenderCallback } from "../types/index";
 let _selectedCountry = "";
 
 export function initAppHandlers(_renderAppFn: RenderCallback): void {
-
   // Search submit — full lookup
   document.addEventListener("search-submit", ((e: Event) => {
     const { query, country } = (
@@ -92,7 +91,10 @@ function handleSearchSubmit(query: string, country: string): void {
 
     if (results.length === 1) {
       // Auto-select single result, but still need a country
-      notify("Please select an origin country to see the full tariff rate.", "info");
+      notify(
+        "Please select an origin country to see the full tariff rate.",
+        "info",
+      );
     }
 
     state.searchResults = results;

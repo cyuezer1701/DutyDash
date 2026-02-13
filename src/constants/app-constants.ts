@@ -16,7 +16,7 @@ export const HS_CODE_PATTERN = /^\d{4}(\.\d{2}(\.\d{2,4})?)?$/;
 export const RATE_THRESHOLDS = {
   LOW_MAX: 0.05,
   MODERATE_MAX: 0.15,
-  HIGH_MAX: 0.30,
+  HIGH_MAX: 0.3,
 } as const;
 
 /**

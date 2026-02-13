@@ -25,7 +25,10 @@ export class TariffResultCard extends BaseComponent {
     const r = this._result;
     const severity = getRateSeverity(r.effectiveRate);
 
-    const severityColors: Record<string, { bg: string; text: string; border: string }> = {
+    const severityColors: Record<
+      string,
+      { bg: string; text: string; border: string }
+    > = {
       low: { bg: "#dcfce7", text: "#166534", border: "#86efac" },
       moderate: { bg: "#fef3c7", text: "#92400e", border: "#fcd34d" },
       high: { bg: "#ffedd5", text: "#9a3412", border: "#fdba74" },
@@ -164,7 +167,9 @@ export class TariffResultCard extends BaseComponent {
     `);
 
     // Set data on the embedded duty-breakdown component
-    const breakdown = this.shadow.querySelector("duty-breakdown") as HTMLElement & {
+    const breakdown = this.shadow.querySelector(
+      "duty-breakdown",
+    ) as HTMLElement & {
       setData?: (mfn: number, duties: typeof r.additionalDuties) => void;
     };
     if (breakdown?.setData) {

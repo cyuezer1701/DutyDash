@@ -111,7 +111,9 @@ export class TariffSearchBar extends BaseComponent {
       </div>
     `);
 
-    const input = this.shadow.querySelector(".search-input") as HTMLInputElement;
+    const input = this.shadow.querySelector(
+      ".search-input",
+    ) as HTMLInputElement;
     const btn = this.shadow.querySelector(".search-btn") as HTMLButtonElement;
     const countrySelect = this.shadow.querySelector("country-select");
 
